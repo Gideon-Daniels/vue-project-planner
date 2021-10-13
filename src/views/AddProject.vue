@@ -27,7 +27,7 @@ export default {
                 complete: false
             }
             // add new project
-            fetch(' http://localhost:3000/projects', {
+            fetch('http://localhost:3000/projects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(project)
