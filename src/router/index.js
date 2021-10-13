@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/add',
     name: 'AddProject',
-    components: AddProject
+    component: AddProject
   }
 
 ]
