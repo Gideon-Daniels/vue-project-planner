@@ -1,6 +1,6 @@
 <template>
   <h1>Edit project</h1>
-  <form @submit.prevent="handleUpdate">
+  <form @submit.prevent="handleSubmit">
     <label>Title:</label>
     <input type="text" v-model="title" required>
 
@@ -29,12 +29,11 @@ export default {
             this.details = data.details
         })
     },
-    method: {
-        handleUpdate(){
+    methods: {
+        handleSubmit(){
             let project = {
                 title : this.title,
                 details : this.details,
-                complete: false
             }
             console.log("Working")
         // update 
