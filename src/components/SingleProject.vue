@@ -1,11 +1,11 @@
 <template>
-  <div class="projects">
+  <div class="project" :class="{ complete: project.complete }">
     <div class="actions">
         <h3 @click="showDetails =! showDetails"> {{ project.title}}</h3>   
         <div class="icons">
             <span class="material-icons">edit</span>
             <span @click="deleteProject" class="material-icons">delete</span>
-            <span  @click="toggleComplete" class="material-icons">done</span>
+            <span @click="toggleComplete" class="material-icons tick">done</span>
         </div>
     </div>
 
@@ -19,24 +19,33 @@
 export default {
     props: ['project'],
     data() {
-        return{
+        return {
             showDetails: false,
-            uri:  'http://localhost:3000/projects/' + this.project.id
+            url: 'http://localhost:3000/projects/' + this.project.id
         }
     },
     methods: {
         deleteProject(){
-            fetch(this.uri, { method: 'Delete'})
+            fetch(this.url, { method: 'Delete'})
             // emit send data to parent component
                 .then( () => this.$emit('delete', this.project.id))
                 .catch(err => console.log(err))
+        },
+        toggleComplete(){
+            fetch(this.url, {
+                 method: 'PATCH',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ complete: !this.project.complete}) 
+                }).then ( () => {
+                    this.$emit('complete',this.project.id)
+                }).catch(err => console.log(err))
         }
     }
 }
 </script>
 
 <style>
-    .projects{
+    .project{
         margin: 20px auto;
         background: white;
         padding: 10px 20px;
@@ -60,5 +69,12 @@ export default {
     }
     .material-icons:hover {
         color: #777;
+    }
+    /* completed projects */
+    .project.complete {
+        border-left: 4px solid #00ce89;
+    }
+    .project.complete .tick {
+        color: #00ce89;
     }
 </style>
